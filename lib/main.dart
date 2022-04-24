@@ -28,14 +28,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int numPanes = 1;
-
-  void _onButtonPressed() {
-    setState(() {
-      numPanes += 1;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,11 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("mango", style: TextStyle(color: Colors.grey.shade900)),
       ),
       body: Column(
-        children: const [Expanded(child: Pane(name: "Server"))],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onButtonPressed,
-        child: const Icon(Icons.run_circle),
+        children: const [
+          Expanded(
+              child: Pane(
+            name: "Server",
+            code: """while true; do echo "Hello, world"; sleep 1; done\n""",
+          ))
+        ],
       ),
     );
   }
