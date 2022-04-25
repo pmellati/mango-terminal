@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:xterm/frontend/terminal_view.dart';
 import 'package:xterm/xterm.dart';
 
-import 'local_terminal_backend.dart';
-
 // A terminal pane with useful buttons, such as close.
 class Pane extends StatefulWidget {
-  const Pane({Key? key, required this.name, this.code}) : super(key: key);
+  const Pane(
+      {Key? key,
+      required this.makeTerminalBackend,
+      required this.name,
+      this.code})
+      : super(key: key);
 
+  final TerminalBackend Function() makeTerminalBackend;
   final String name;
   final String? code;
 
@@ -18,24 +22,26 @@ class Pane extends StatefulWidget {
 }
 
 class _PaneState extends State<Pane> {
-  final LocalTerminalBackend terminalBackend;
+  late final TerminalBackend terminalBackend;
   late final Terminal terminal;
-
-  _PaneState() : terminalBackend = LocalTerminalBackend() {
-    terminal = Terminal(
-      backend: terminalBackend,
-      maxLines: 100,
-    );
-  }
 
   @override
   void initState() {
     super.initState();
 
+    terminalBackend = widget.makeTerminalBackend();
+    terminal = Terminal(maxLines: 500, backend: terminalBackend);
+
     final code = widget.code;
     if (code != null) {
       terminalBackend.write(code);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    terminal.terminateBackend();
   }
 
   @override
