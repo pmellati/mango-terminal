@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
               child: Pane(
             name: "Server",
-            code: """while true; do echo "Hello, world"; sleep 1; done\n""",
+            code: """while true; do Hello; sleep 1; done\n""",
           ))
         ],
       ),

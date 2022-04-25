@@ -143,7 +143,7 @@ packages:
       name: pty
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.2-pre"
   quiver:
     dependency: transitive
     description:

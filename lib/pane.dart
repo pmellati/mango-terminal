@@ -18,7 +18,7 @@ class Pane extends StatefulWidget {
 }
 
 class _PaneState extends State<Pane> {
-  final TerminalBackend terminalBackend;
+  final LocalTerminalBackend terminalBackend;
   late final Terminal terminal;
 
   _PaneState() : terminalBackend = LocalTerminalBackend() {
@@ -76,7 +76,13 @@ class _PaneState extends State<Pane> {
         );
 
     return Column(
-      children: [toolbar(), Expanded(child: TerminalView(terminal: terminal))],
+      children: [
+        toolbar(),
+        Expanded(
+            child: TerminalView(
+          terminal: terminal,
+        ))
+      ],
     );
   }
 }

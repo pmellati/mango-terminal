@@ -5,18 +5,19 @@ import 'package:xterm/xterm.dart';
 class LocalTerminalBackend extends TerminalBackend {
   LocalTerminalBackend();
 
-  // TODO: Is this being created on object creation?
   final pty = PseudoTerminal.start(
-    '/bin/zsh',
-    [],
-    environment: Platform.environment,
+    Platform.environment['SHELL'] ?? 'sh',
+    ['-l'],
+    environment: {'TERM': 'xterm-256color'},
   );
 
   @override
   Future<int> get exitCode => pty.exitCode;
 
   @override
-  void init() {}
+  void init() {
+    pty.init();
+  }
 
   @override
   Stream<String> get out => pty.out;
@@ -33,11 +34,11 @@ class LocalTerminalBackend extends TerminalBackend {
 
   @override
   void terminate() {
-    // client.disconnect('terminate');
+    pty.kill();
   }
 
   @override
   void ackProcessed() {
-    // NOOP
+    pty.ackProcessed();
   }
 }
